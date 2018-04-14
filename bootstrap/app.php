@@ -23,7 +23,7 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
-// $app->withFacades();
+$app->withFacades();
 
 // $app->withEloquent();
 
@@ -82,7 +82,10 @@ $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
-$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+if ($app->environment() !== 'production'){
+    $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+    $app->register(Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+}
 //$app->register(Laravelista\LumenVendorPublish\VendorPublishCommand::class);
 $app->register(Iwanli\Wxxcx\WxxcxServiceProvider::class);
 
