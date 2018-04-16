@@ -24,8 +24,7 @@ $app = new Laravel\Lumen\Application(
 );
 
 $app->withFacades();
-
-// $app->withEloquent();
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +36,8 @@ $app->withFacades();
 | your own bindings here if you like or you can make another file.
 |
 */
+
+$app->configure('auth');
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
@@ -63,9 +64,9 @@ $app->singleton(
 //    App\Http\Middleware\ExampleMiddleware::class
 // ]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -79,15 +80,17 @@ $app->singleton(
 */
 
 $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 if ($app->environment() !== 'production'){
     $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
     $app->register(Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 }
-//$app->register(Laravelista\LumenVendorPublish\VendorPublishCommand::class);
+$app->register(Laravel\Passport\PassportServiceProvider::class);
 $app->register(Iwanli\Wxxcx\WxxcxServiceProvider::class);
+
+$app->alias('cache','Illuminate\Cacle\CacheManager');
 
 /*
 |--------------------------------------------------------------------------
